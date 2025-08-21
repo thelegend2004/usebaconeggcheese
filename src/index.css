@@ -10,6 +10,12 @@
   --color-red-dark: #e03131;
 }
 
+.box::-webkit-scrollbar,
+.list::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -37,6 +43,7 @@ body {
   align-items: center;
   height: 7.2rem;
   padding: 0 3.2rem;
+  gap:1rem;
   background-color: var(--color-primary);
   border-radius: 0.9rem;
 }
@@ -77,15 +84,15 @@ body {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 
 .logo span {
-  font-size: 3.2rem;
+  font-size: 1.6rem;
 }
 
 .logo h1 {
-  font-size: 2.4rem;
+  font-size: 1.4em;
   font-weight: 600;
   color: #fff;
 }
