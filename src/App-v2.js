@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
 
@@ -9,15 +10,10 @@ const KEY = `516ccfc8`;
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  // const [watched, setWatched] = useState([]);
-
-  const [watched, setWatched] = useState(() => {
-    const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
-  });
 
   function handleSelectMovie(id) {
     id === selectedId ? setSelectedId(null) : setSelectedId(id);
@@ -29,16 +25,11 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
-    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
 
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-  }, [watched])
 
   useEffect(() => {
     const controller = new AbortController();
@@ -138,14 +129,8 @@ function ErrorMessage({ message }) {
 }
 
 function Search({ query, setQuery }) {
-  // useEffect(()=>{
-  //   const el = document.querySelector('.search');
-  //   el.focus();
-  // },[])
-
   return (
     <input
-
       className="search"
       type="text"
       placeholder="Search movies..."
@@ -236,7 +221,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     (movie) => movie.imdbID === selectedId
   )?.userRating;
 
-
   const {
     Title: title,
     Year: year,
@@ -250,22 +234,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
-  // Conditional hooks are forbidden
-  // if(imdbRating > 8) [isTop, setIsTop] = useState(true);
-
-  // Early return, not all hooks called in the same order
-  // if(imdbRating > 8) return <p>Greatest ever!</p>;
-
-  // const [isTop, setIsTop] = useState(imdbRating > 8);
-  // console.log(isTop);
-  // useEffect(()=>{
-  //   setIsTop(imdbRating > 8);
-  // },[imdbRating])
-
-  // const isTop = imdbRating > 8;
-  // console.log(isTop);
-
-  // const [avgRating, setAvgRating] = useState(0);
   const handleAdd = () => {
     const newWatchedMovie = {
       imdbID: selectedId,
@@ -277,9 +245,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       userRating,
     };
     onAddWatched(newWatchedMovie);
-
-    // setAvgRating(Number(imdbRating));
-    // setAvgRating((avgRating) => (avgRating + userRating) / 2);
     onCloseMovie();
   };
 
@@ -340,7 +305,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
                 <span>⭐</span>
                 {imdbRating} IMDb rating
               </p>
-              {/* <p>{avgRating}</p> */}
             </div>
           </header>
           <section>
